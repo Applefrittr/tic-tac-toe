@@ -1,4 +1,5 @@
 :root   {
+    --grid-border: solid white 1px;
     --shadow: 1px 5px 2px black, 1px 5px 2px black, 1px -1px 0 black, -1px -1px 0 black;
 }
 
@@ -13,14 +14,18 @@
     src: url(NeonMachine.ttf) format("truetype");
 }
 
-#container  {
+body    {
+    background-image: url(arcade.jpg);
+    background-size: cover;
+}
+
+#splash-page  {
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2.5rem;
-    background-image: url(arcade.jpg);
-    background-size: cover;
+    z-index: -1;
 }
 
 #hero   {
@@ -71,4 +76,136 @@ footer  {
 a   {
     color: white;
     text-decoration: none;
+}
+
+#game-board-overlay {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .6);
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+#player-icons   {
+    display: flex;
+    color: white;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.players    {
+    width: 125px;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 1rem;
+    font-family: Neon;
+    font-size: 2rem;
+    box-shadow: var(--shadow);
+    transition-property: transform box-shadow;
+    transition-timing-function: ease-in-out;
+    transform: scale(1);
+    transition-duration: .5s;
+}
+
+#playerX    {
+    color: violet;
+    text-shadow: var(--shadow);
+    border: solid violet 1px;
+}
+
+#playerO    {
+    color: turquoise;
+    text-shadow: var(--shadow);
+    border: solid turquoise 1px;
+}
+
+.playerX-active  {
+    transform: scale(1.25);
+    transition-duration: .5s;
+    box-shadow: 0px 0px 80px 35px violet;
+}
+
+.playerO-active  {
+    transform: scale(1.25);
+    transition-duration: .5s;
+    box-shadow: 0px 0px 80px 35px turquoise;
+}
+
+.X  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: violet;
+    font-family: Neon;
+    font-size: 5rem;
+    
+}
+
+.O  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: turquoise;
+    font-family: Neon;
+    font-size: 5rem;
+    
+}
+
+#game-board {
+    height: 400px;
+    width: 400px;
+    padding: 1rem;
+    border: 2px solid white;
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.square {
+    height: 120px;
+    width: 120px;
+}
+
+#one    {
+    border-right: var(--grid-border);
+    border-bottom: var(--grid-border);
+}
+
+#two    {
+    border-bottom: var(--grid-border);
+}
+
+#three  {
+    border-left: var(--grid-border);
+    border-bottom: var(--grid-border);
+}
+
+#four   {
+    border-right: var(--grid-border);
+    border-bottom: var(--grid-border);
+}
+
+#five   {
+    border-bottom: var(--grid-border);
+}
+
+#six    {
+    border-left: var(--grid-border);
+    border-bottom: var(--grid-border);
+}
+
+#seven  {
+    border-right: var(--grid-border);
+}
+
+#nine   {
+    border-left: var(--grid-border);
 }
