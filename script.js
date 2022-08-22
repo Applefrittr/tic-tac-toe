@@ -46,7 +46,13 @@ const GameGrid = () => {
 
     // logic to detect tie
     const tie = () => {
-        if (grid.every(square => square != '')) alert(`It's a tie!`)
+        if (grid.every(square => square != '')) {
+            setTimeout(function() {
+                gameOverOverlay.style.display = 'flex'
+                gameOverMsg.textContent = `Tie`
+                gameOverModal.style.backgroundColor = 'white'
+            }, 500)
+        }
     }
 
     // private method used in both winner() and tie() methods to display gameOver modal
@@ -73,7 +79,7 @@ const GameGrid = () => {
     return {fill, clearBoard}
 }
 
-
+// our seletors
 const pvpBtn = document.querySelector('#pvp')
 const boardOverlay = document.querySelector('#game-board-overlay')
 const splash = document.querySelector('#splash-page')
@@ -86,12 +92,14 @@ const gameOverMsg = document.querySelector('#game-over-msg')
 const newGame = document.querySelector('#newGame')
 const home = document.querySelector('#home')
 
+//create 2 players, X and O
 let X = Player('X', true)
 let O = Player('O', false)
 
+//greate our gameboard instance
 let gameBoard = GameGrid()
 
-
+// gamemode PVP selected from splash page
 pvpBtn.addEventListener('click', () => {
     boardOverlay.style.display = 'flex'
     splash.style.display = 'none'
@@ -99,6 +107,7 @@ pvpBtn.addEventListener('click', () => {
 
 })
 
+// event listeners when an available square on the tic tac toe gameboard is selected by the current player
 squares.forEach((square) => {
     square.addEventListener('click', () => {
         if (X.turn && !square.textContent) {
@@ -109,6 +118,7 @@ squares.forEach((square) => {
     })
 })
 
+// new game is seleted on the gamewinner banner.  Clears agmeBoard grid and player classes from squares add during previous game
 newGame.addEventListener('click', () => {
     gameBoard.clearBoard()
     gameOverOverlay.style.display = 'none'
@@ -119,6 +129,7 @@ newGame.addEventListener('click', () => {
 
 })
 
+// home is selected on the gamewinner banner, returns to splash page and empties gameBoard grid and removes player classes from squares
 home.addEventListener('click', () => {
     gameBoard.clearBoard()
     gameOverOverlay.style.display = 'none'
