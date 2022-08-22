@@ -53,8 +53,8 @@ body    {
     width: 50%;    
 }
 
-.game-type-button   {
-    margin: 2.5rem;
+button   {
+    margin: 1.5rem;
     padding: 1rem;
     border: solid black 1px;
     box-shadow: 3px 5px rgb(16, 53, 70);
@@ -174,38 +174,71 @@ a   {
     width: 120px;
 }
 
-#one    {
+.one    {
     border-right: var(--grid-border);
     border-bottom: var(--grid-border);
 }
 
-#two    {
+.two    {
     border-bottom: var(--grid-border);
 }
 
-#three  {
+.three  {
     border-left: var(--grid-border);
     border-bottom: var(--grid-border);
 }
 
-#four   {
+.four   {
     border-right: var(--grid-border);
     border-bottom: var(--grid-border);
 }
 
-#five   {
+.five   {
     border-bottom: var(--grid-border);
 }
 
-#six    {
+.six    {
     border-left: var(--grid-border);
     border-bottom: var(--grid-border);
 }
 
-#seven  {
+.seven  {
     border-right: var(--grid-border);
 }
 
-#nine   {
+.nine   {
     border-left: var(--grid-border);
+}
+
+#game-over-overlay  {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .6);
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+#game-over-modal    {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    height: 200px;
+    width: 100%;
+    color: white;
+    border: solid black 1px;
+}
+
+#game-over-msg  {
+    font-size: 2rem;
+    font-family: Neon;
+    text-shadow: var(--shadow);
 }
