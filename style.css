@@ -142,20 +142,20 @@ a   {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: violet;
+    color: rgba(238, 130, 238, 1);
     font-family: Neon;
     font-size: 5rem;
-    
+    text-shadow: var(--shadow);
 }
 
 .O  {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: turquoise;
+    color: rgba(64, 224, 208, 1);
     font-family: Neon;
     font-size: 5rem;
-    
+    text-shadow: var(--shadow);    
 }
 
 #game-board {
@@ -172,6 +172,11 @@ a   {
 .square {
     height: 120px;
     width: 120px;
+    transition: color 500ms;
+}
+
+.square:hover   {
+    box-shadow: 0px 0px 15px 5px white
 }
 
 .one    {
