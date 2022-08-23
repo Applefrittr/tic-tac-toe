@@ -1,11 +1,12 @@
 // our player factory function
-const Player = (name, turn) => {
-    return {name, turn}
+const Player = (name, turn, ai) => {
+    return {name, turn, ai}
 }
 // tic tac toe grid factory function
 const GameGrid = () => {
     // private array to represent tic tac toe grid
     let grid = ['','','','','','','','','']
+    let gameOver = false
 
     // method fill() made public to work with EventListeners.  Will call both winner() & tie() (private methods)
     // when a player selects an available square to detect any game ending conditions
@@ -46,7 +47,7 @@ const GameGrid = () => {
 
     // logic to detect tie
     const tie = () => {
-        if (grid.every(square => square != '')) {
+        if (!gameOver && grid.every(box => box != '')) {
             setTimeout(function() {
                 gameOverOverlay.style.display = 'flex'
                 gameOverMsg.textContent = `Tie`
@@ -63,6 +64,7 @@ const GameGrid = () => {
             if (player == 'X') gameOverModal.style.backgroundColor = 'violet'
             else gameOverModal.style.backgroundColor = 'turquoise'
         }, 500)
+        gameOver = true
     }
 
     // clears all player classes and empties grid array in preperation for next game
@@ -73,14 +75,15 @@ const GameGrid = () => {
             square.classList.remove('O')
         })
         for (let a = 0; a < grid.length; a++) grid[a] = ''
+        gameOver = false
     }
 
-    // only need to make fill() and clearBoard() public to work with button event listeners
-    return {fill, clearBoard}
+    return {fill, clearBoard, grid, winner}
 }
 
 // our seletors
 const pvpBtn = document.querySelector('#pvp')
+const pveBtn = document.querySelector('#pve')
 const boardOverlay = document.querySelector('#game-board-overlay')
 const splash = document.querySelector('#splash-page')
 const playerXIcon = document.querySelector('#playerX')
@@ -91,29 +94,54 @@ const gameOverModal = document.querySelector('#game-over-modal')
 const gameOverMsg = document.querySelector('#game-over-msg')
 const newGame = document.querySelector('#newGame')
 const home = document.querySelector('#home')
+const chooseOverlay = document.querySelector('#choose-player-overlay')
+let chooseX = document.querySelector('#chooseX')
+let chooseO = document.querySelector('#chooseO')
+
 
 //create 2 players, X and O
-let X = Player('X', true)
-let O = Player('O', false)
+let X = Player('X', false, false)
+let O = Player('O', false, false)
 
 //greate our gameboard instance
 let gameBoard = GameGrid()
 
 // gamemode PVP selected from splash page
 pvpBtn.addEventListener('click', () => {
+    X.turn = true
     boardOverlay.style.display = 'flex'
     splash.style.display = 'none'
     playerXIcon.classList.toggle('playerX-active')
 
 })
 
-// event listeners when an available square on the tic tac toe gameboard is selected by the current player
+// event listeners when an available square on the tic tac toe gameboard is selected by the current player w/ integrated AI logic if pve gamemode is selected.  Determined by AI element in each Player instance
 squares.forEach((square) => {
     square.addEventListener('click', () => {
         if (X.turn && !square.textContent) {
             gameBoard.fill(X, O, square)
+            // Uses random number generator to pick an available square while still available
+            if (O.ai == true && gameBoard.grid.some((box) => box === '')) {
+                let x = Math.floor(Math.random() * 9)
+                let square = document.getElementById(x)
+                while(square.textContent) {
+                    x = Math.floor(Math.random() * 9)
+                    square = document.getElementById(x)
+                }
+                gameBoard.fill(O, X, square)       
+            }
         } else if (O.turn && !square.textContent) {
             gameBoard.fill(O, X, square)
+            // Uses random number generator to pick an available square while still available
+            if (X.ai == true && gameBoard.grid.some((box) => box === '')) {
+                let x = Math.floor(Math.random() * 9)
+                let square = document.getElementById(x)
+                while(square.textContent) {
+                    x = Math.floor(Math.random() * 9)
+                    square = document.getElementById(x)
+                }
+                gameBoard.fill(X, O, square)       
+            }
         } else return
     })
 })
@@ -127,16 +155,56 @@ newGame.addEventListener('click', () => {
     playerXIcon.classList.add('playerX-active')
     playerOIcon.classList.remove('playerO-active')
 
+    if (X.ai == true)   {
+        let x = Math.floor(Math.random() * 9)
+        let square = document.getElementById(x)
+        gameBoard.fill(X, O, square)
+    }
 })
 
-// home is selected on the gamewinner banner, returns to splash page and empties gameBoard grid and removes player classes from squares
+// home is selected on the gamewinner banner, returns to splash page and empties gameBoard grid and removes player classes from squares and sets Player instances to initial state
 home.addEventListener('click', () => {
     gameBoard.clearBoard()
     gameOverOverlay.style.display = 'none'
     boardOverlay.style.display = 'none'
     splash.style.display = 'flex'
+    X.ai = false
+    O.ai = false
     X.turn = true
     O.turn = false
     playerXIcon.classList.remove('playerX-active')
     playerOIcon.classList.remove('playerO-active')
 })
+
+// pvAI game mode, will display Choose Player Overlay
+pveBtn.addEventListener('click', () => {
+    X.turn = true
+    O.turn = false
+    chooseOverlay.style.display = 'flex'
+})
+
+// PLayer chooses O, making Player X the AI, and will execute the first move
+chooseO.addEventListener('click', () => {
+    X.ai = true
+
+    chooseOverlay.style.display = 'none'
+    splash.style.display = 'none'
+    boardOverlay.style.display = 'flex'
+    playerXIcon.classList.add('playerX-active')
+    
+    let x = Math.floor(Math.random() * 9)
+    let square = document.getElementById(x)
+    gameBoard.fill(X, O, square)
+    console.log(X.turn)
+})
+
+//Player Chooses X, making PLayer O the AI
+chooseX.addEventListener('click', () => {
+    O.ai = true
+
+    chooseOverlay.style.display = 'none'
+    splash.style.display = 'none'
+    boardOverlay.style.display = 'flex'
+    playerXIcon.classList.add('playerX-active')
+})
+

@@ -247,3 +247,41 @@ a   {
     font-family: Neon;
     text-shadow: var(--shadow);
 }
+
+#choose-player-overlay  {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .6);
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+#choose-player-modal    {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    height: 200px;
+    width: 100%;
+    border: solid black 1px;
+    background: white;
+}
+
+#choose-player-msg  {
+    font-size: 2rem;
+    font-family: Neon;
+    text-shadow: var(--shadow);
+    color: white;
+}
+
+.choose {
+    width: 100px;
+}
